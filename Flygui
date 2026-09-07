@@ -1,0 +1,150 @@
+-- [[ LIGHTNING HUB UNIVERSAL FLY GUI - V18 ]] --
+-- Motor, yönler ve yazılar V17 ile aynıdır. Sadece Kapatma ve Küçültme eklendi.
+local player = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local runService = game:GetService("RunService")
+local coreGui = game:GetService("CoreGui")
+
+if coreGui:FindFirstChild("LightningHubFly") then coreGui.LightningHubFly:Destroy() end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "LightningHubFly"
+ScreenGui.Parent = coreGui
+ScreenGui.ResetOnSpawn = false
+
+local flying = false
+local flySpeed = 70 
+
+-- [ PANEL ANA GÖVDE ] --
+local MainFrame = Instance.new("Frame", ScreenGui)
+MainFrame.Size = UDim2.new(0, 220, 0, 130)
+MainFrame.Position = UDim2.new(0.5, -110, 0.05, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.Active = true
+MainFrame.Draggable = true
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
+Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(255, 255, 0)
+
+-- ÜST YAZI: "LightningHub Universal Fly Gui"
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Text = "LightningHub Universal Fly Gui"
+Title.Size = UDim2.new(1, -60, 0, 30)
+Title.Position = UDim2.new(0, 5, 0, 5)
+Title.TextColor3 = Color3.fromRGB(255, 255, 0)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 11
+Title.BackgroundTransparency = 1
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- [ KAPATMA VE KÜÇÜLTME BUTONLARI ] --
+local CloseBtn = Instance.new("TextButton", MainFrame)
+CloseBtn.Text = "X"
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Position = UDim2.new(1, -30, 0, 5)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+CloseBtn.TextColor3 = Color3.new(1, 1, 1)
+CloseBtn.Font = Enum.Font.GothamBold
+Instance.new("UICorner", CloseBtn)
+
+local MinimizeBtn = Instance.new("TextButton", MainFrame)
+MinimizeBtn.Text = "-"
+MinimizeBtn.Size = UDim2.new(0, 25, 0, 25)
+MinimizeBtn.Position = UDim2.new(1, -60, 0, 5)
+MinimizeBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
+MinimizeBtn.TextColor3 = Color3.new(1, 1, 1)
+MinimizeBtn.Font = Enum.Font.GothamBold
+Instance.new("UICorner", MinimizeBtn)
+
+-- KÜÇÜLMÜŞ YUVARLAK SİMGE
+local OpenBtn = Instance.new("TextButton", ScreenGui)
+OpenBtn.Text = "L"
+OpenBtn.Size = UDim2.new(0, 45, 0, 45)
+OpenBtn.Position = UDim2.new(0, 10, 0.5, -22)
+OpenBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+OpenBtn.TextColor3 = Color3.new(0, 0, 0)
+OpenBtn.Font = Enum.Font.GothamBold
+OpenBtn.Visible = false
+Instance.new("UICorner", OpenBtn).CornerRadius = UDim.new(1, 0)
+Instance.new("UIStroke", OpenBtn).Thickness = 2
+
+-- Buton Fonksiyonları
+CloseBtn.MouseButton1Click:Connect(function() 
+    flying = false 
+    ScreenGui:Destroy() 
+end)
+
+MinimizeBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    OpenBtn.Visible = true
+end)
+
+OpenBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = true
+    OpenBtn.Visible = false
+end)
+
+-- [ FLY BUTONU ] --
+local FlyBtn = Instance.new("TextButton", MainFrame)
+FlyBtn.Text = "FLY: OFF"
+FlyBtn.Size = UDim2.new(0, 160, 0, 40)
+FlyBtn.Position = UDim2.new(0.5, -80, 0.5, -5)
+FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+FlyBtn.TextColor3 = Color3.new(1, 1, 1)
+FlyBtn.Font = Enum.Font.GothamBold
+Instance.new("UICorner", FlyBtn)
+
+-- ALT YAZI: "Prepared by: halilibrahimseviml1"
+local Footer = Instance.new("TextLabel", MainFrame)
+Footer.Text = "Prepared by: halilibrahimseviml1"
+Footer.Size = UDim2.new(1, 0, 0, 20)
+Footer.Position = UDim2.new(0, 0, 1, -20)
+Footer.TextColor3 = Color3.fromRGB(150, 150, 150)
+Footer.Font = Enum.Font.Gotham
+Footer.TextSize = 10
+Footer.BackgroundTransparency = 1
+
+-- [ DEĞİŞMEYEN UÇUŞ MOTORU ] --
+FlyBtn.MouseButton1Click:Connect(function()
+    flying = not flying
+    FlyBtn.Text = flying and "FLY: ON" or "FLY: OFF"
+    FlyBtn.BackgroundColor3 = flying and Color3.fromRGB(255, 255, 0) or Color3.fromRGB(40, 40, 45)
+    FlyBtn.TextColor3 = flying and Color3.new(0, 0, 0) or Color3.new(1, 1, 1)
+
+    if flying then
+        task.spawn(function()
+            local char = player.Character or player.CharacterAdded:Wait()
+            local root = char:WaitForChild("HumanoidRootPart")
+            local hum = char:WaitForChild("Humanoid")
+
+            local bv = Instance.new("BodyVelocity", root)
+            bv.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+            bv.Velocity = Vector3.new(0, 0, 0)
+
+            local bg = Instance.new("BodyGyro", root)
+            bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+            bg.P = 15000 
+
+            while flying and char.Parent and hum.Health > 0 do
+                runService.Heartbeat:Wait()
+                local moveDir = hum.MoveDirection 
+                if moveDir.Magnitude > 0 then
+                    local camLook = camera.CFrame.LookVector
+                    local verticalVelocity = 0
+                    if moveDir.Unit:Dot(camera.CFrame.LookVector.Unit) > 0.5 then
+                        verticalVelocity = camLook.Y * flySpeed
+                    elseif moveDir.Unit:Dot(camera.CFrame.LookVector.Unit) < -0.5 then
+                        verticalVelocity = -camLook.Y * flySpeed
+                    end
+                    bv.Velocity = Vector3.new(moveDir.X * flySpeed, verticalVelocity, moveDir.Z * flySpeed)
+                else
+                    bv.Velocity = Vector3.new(0, 0, 0)
+                end
+                bg.CFrame = camera.CFrame
+                hum:ChangeState(Enum.HumanoidStateType.Physics)
+            end
+            if bv then bv:Destroy() end
+            if bg then bg:Destroy() end
+            if hum then hum:ChangeState(Enum.HumanoidStateType.GettingUp) end
+        end)
+    end
+end)
