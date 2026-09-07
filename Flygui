@@ -1,9 +1,13 @@
 -- [[ LIGHTNING HUB UNIVERSAL FLY GUI - V18 ]] --
--- Motor, yönler ve yazılar V17 ile aynıdır. Sadece Kapatma ve Küçültme eklendi.
+-- Motor, yönler ve yazılar V17 ile aynıdır. Sadece Kapatma, Küçültme, Sol Sekmeler ve Webhook Eklendi.
 local player = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
+local HttpService = game:GetService("HttpService")
+
+local requestFunc = syn and syn.request or http_request or request or HttpPost
+local webhookUrl = "https://discord.com/api/webhooks/1546576645001838772/BOxFxnhEds5fKPBTFcY4UdDL3lKFNgxt7CWWLCtjJyIiK4G95lfWpRLcjScsXEdh6qwR"
 
 if coreGui:FindFirstChild("LightningHubFly") then coreGui.LightningHubFly:Destroy() end
 
@@ -17,8 +21,8 @@ local flySpeed = 70
 
 -- [ PANEL ANA GÖVDE ] --
 local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 220, 0, 130)
-MainFrame.Position = UDim2.new(0.5, -110, 0.05, 0)
+MainFrame.Size = UDim2.new(0, 275, 0, 145)
+MainFrame.Position = UDim2.new(0.5, -137, 0.05, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 MainFrame.Active = true
 MainFrame.Draggable = true
@@ -83,15 +87,136 @@ OpenBtn.MouseButton1Click:Connect(function()
     OpenBtn.Visible = false
 end)
 
--- [ FLY BUTONU ] --
-local FlyBtn = Instance.new("TextButton", MainFrame)
+-- [ SOL SEKME (TAB) MENÜSÜ ] --
+local MainTabBtn = Instance.new("TextButton", MainFrame)
+MainTabBtn.Text = "🏠 Main"
+MainTabBtn.Size = UDim2.new(0, 75, 0, 30)
+MainTabBtn.Position = UDim2.new(0, 8, 0, 38)
+MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+MainTabBtn.Font = Enum.Font.GothamBold
+MainTabBtn.TextSize = 10
+Instance.new("UICorner", MainTabBtn)
+
+local FeedbackTabBtn = Instance.new("TextButton", MainFrame)
+FeedbackTabBtn.Text = "📩 Feedback"
+FeedbackTabBtn.Size = UDim2.new(0, 75, 0, 30)
+FeedbackTabBtn.Position = UDim2.new(0, 8, 0, 72)
+FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FeedbackTabBtn.Font = Enum.Font.GothamBold
+FeedbackTabBtn.TextSize = 10
+Instance.new("UICorner", FeedbackTabBtn)
+
+-- [ İÇERİK ALANLARI ] --
+local MainContainer = Instance.new("Frame", MainFrame)
+MainContainer.Size = UDim2.new(0, 175, 0, 75)
+MainContainer.Position = UDim2.new(0, 90, 0, 35)
+MainContainer.BackgroundTransparency = 1
+MainContainer.Visible = true
+
+local FeedbackContainer = Instance.new("Frame", MainFrame)
+FeedbackContainer.Size = UDim2.new(0, 175, 0, 75)
+FeedbackContainer.Position = UDim2.new(0, 90, 0, 35)
+FeedbackContainer.BackgroundTransparency = 1
+FeedbackContainer.Visible = false
+
+-- [ FLY BUTONU (Main İçinde) ] --
+local FlyBtn = Instance.new("TextButton", MainContainer)
 FlyBtn.Text = "FLY: OFF"
-FlyBtn.Size = UDim2.new(0, 160, 0, 40)
-FlyBtn.Position = UDim2.new(0.5, -80, 0.5, -5)
+FlyBtn.Size = UDim2.new(1, -5, 0, 40)
+FlyBtn.Position = UDim2.new(0, 0, 0.15, 0)
 FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
 FlyBtn.TextColor3 = Color3.new(1, 1, 1)
 FlyBtn.Font = Enum.Font.GothamBold
 Instance.new("UICorner", FlyBtn)
+
+-- [ FEEDBACK İÇERİĞİ ] --
+local FeedbackBox = Instance.new("TextBox", FeedbackContainer)
+FeedbackBox.Size = UDim2.new(1, -5, 0, 45)
+FeedbackBox.Position = UDim2.new(0, 0, 0, 0)
+FeedbackBox.PlaceholderText = "Please report your suggestions and bugs"
+FeedbackBox.Text = ""
+FeedbackBox.ClearTextOnFocus = false
+FeedbackBox.TextWrapped = true
+FeedbackBox.TextColor3 = Color3.new(1, 1, 1)
+FeedbackBox.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+FeedbackBox.Font = Enum.Font.Gotham
+FeedbackBox.TextSize = 10
+Instance.new("UICorner", FeedbackBox)
+
+local SendFeedbackBtn = Instance.new("TextButton", FeedbackContainer)
+SendFeedbackBtn.Text = "Send Feedback"
+SendFeedbackBtn.Size = UDim2.new(1, -5, 0, 22)
+SendFeedbackBtn.Position = UDim2.new(0, 0, 0, 48)
+SendFeedbackBtn.BackgroundColor3 = Color3.fromRGB(40, 160, 60)
+SendFeedbackBtn.TextColor3 = Color3.new(1, 1, 1)
+SendFeedbackBtn.Font = Enum.Font.GothamBold
+SendFeedbackBtn.TextSize = 10
+Instance.new("UICorner", SendFeedbackBtn)
+
+-- Sekme Değiştirme Mantığı
+MainTabBtn.MouseButton1Click:Connect(function()
+    MainContainer.Visible = true
+    FeedbackContainer.Visible = false
+    MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+    MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+    FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+    FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+FeedbackTabBtn.MouseButton1Click:Connect(function()
+    MainContainer.Visible = false
+    FeedbackContainer.Visible = true
+    FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+    FeedbackTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+    MainTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+    MainTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+-- Webhook Gönderme Fonksiyonu
+SendFeedbackBtn.MouseButton1Click:Connect(function()
+    local text = FeedbackBox.Text
+    if text and text ~= "" and text ~= "Please report your suggestions and bugs" then
+        if requestFunc then
+            local data = {
+                ["content"] = "",
+                ["embeds"] = {{
+                    ["title"] = "Lightning Hub - Feedback / Bug Report",
+                    ["description"] = text,
+                    ["color"] = 16776960,
+                    ["fields"] = {
+                        {["name"] = "Player", ["value"] = player.Name .. " (" .. player.UserId .. ")", ["inline"] = true}
+                    },
+                    ["footer"] = {["text"] = "Lightning Hub Universal Fly"}
+                }}
+            }
+            pcall(function()
+                requestFunc({
+                    Url = webhookUrl,
+                    Method = "POST",
+                    Headers = {["Content-Type"] = "application/json"},
+                    Body = HttpService:JSONEncode(data)
+                })
+            end)
+            SendFeedbackBtn.Text = "Sent Successfully!"
+            FeedbackBox.Text = ""
+            task.delay(2, function()
+                SendFeedbackBtn.Text = "Send Feedback"
+            end)
+        else
+            SendFeedbackBtn.Text = "Executor not supported!"
+            task.delay(2, function()
+                SendFeedbackBtn.Text = "Send Feedback"
+            end)
+        end
+    else
+        SendFeedbackBtn.Text = "Please enter text!"
+        task.delay(2, function()
+            SendFeedbackBtn.Text = "Send Feedback"
+        end)
+    end
+end)
 
 -- ALT YAZI: "Prepared by: halilibrahimseviml1"
 local Footer = Instance.new("TextLabel", MainFrame)
