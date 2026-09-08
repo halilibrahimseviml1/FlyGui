@@ -90,7 +90,7 @@ end)
 -- [ SOL SEKME (TAB) MENÜSÜ ] --
 local MainTabBtn = Instance.new("TextButton", MainFrame)
 MainTabBtn.Text = "🏠 Main"
-MainTabBtn.Size = UDim2.new(0, 75, 0, 30)
+MainTabBtn.Size = UDim2.new(0, 75, 0, 24)
 MainTabBtn.Position = UDim2.new(0, 8, 0, 38)
 MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
 MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -100,13 +100,24 @@ Instance.new("UICorner", MainTabBtn)
 
 local FeedbackTabBtn = Instance.new("TextButton", MainFrame)
 FeedbackTabBtn.Text = "📩 Feedback"
-FeedbackTabBtn.Size = UDim2.new(0, 75, 0, 30)
-FeedbackTabBtn.Position = UDim2.new(0, 8, 0, 72)
+FeedbackTabBtn.Size = UDim2.new(0, 75, 0, 24)
+FeedbackTabBtn.Position = UDim2.new(0, 8, 0, 64)
 FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
 FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 FeedbackTabBtn.Font = Enum.Font.GothamBold
 FeedbackTabBtn.TextSize = 10
 Instance.new("UICorner", FeedbackTabBtn)
+
+-- 💬 Global Chat Butonu (Feedback'in Altına Eklendi)
+local GlobalChatTabBtn = Instance.new("TextButton", MainFrame)
+GlobalChatTabBtn.Text = "💬 Global Chat"
+GlobalChatTabBtn.Size = UDim2.new(0, 75, 0, 24)
+GlobalChatTabBtn.Position = UDim2.new(0, 8, 0, 90)
+GlobalChatTabBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+GlobalChatTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+GlobalChatTabBtn.Font = Enum.Font.GothamBold
+GlobalChatTabBtn.TextSize = 10
+Instance.new("UICorner", GlobalChatTabBtn)
 
 -- [ İÇERİK ALANLARI ] --
 local MainContainer = Instance.new("Frame", MainFrame)
@@ -172,6 +183,13 @@ FeedbackTabBtn.MouseButton1Click:Connect(function()
     FeedbackTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
     MainTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
     MainTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+-- Global Chat Butonu İşlevi
+GlobalChatTabBtn.MouseButton1Click:Connect(function()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/Global-chat/refs/heads/main/Global-chat"))()
+    end)
 end)
 
 -- Webhook Gönderme Fonksiyonu
@@ -273,3 +291,4 @@ FlyBtn.MouseButton1Click:Connect(function()
         end)
     end
 end)
+
