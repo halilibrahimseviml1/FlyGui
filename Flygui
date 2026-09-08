@@ -21,7 +21,7 @@ local flySpeed = 70
 
 -- [ PANEL ANA GÖVDE ] --
 local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 275, 0, 145)
+MainFrame.Size = UDim2.new(0, 275, 0, 165)
 MainFrame.Position = UDim2.new(0.5, -137, 0.05, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 MainFrame.Active = true
@@ -121,22 +121,33 @@ Instance.new("UICorner", GlobalChatTabBtn)
 
 -- [ İÇERİK ALANLARI ] --
 local MainContainer = Instance.new("Frame", MainFrame)
-MainContainer.Size = UDim2.new(0, 175, 0, 75)
+MainContainer.Size = UDim2.new(0, 175, 0, 95)
 MainContainer.Position = UDim2.new(0, 90, 0, 35)
 MainContainer.BackgroundTransparency = 1
 MainContainer.Visible = true
 
 local FeedbackContainer = Instance.new("Frame", MainFrame)
-FeedbackContainer.Size = UDim2.new(0, 175, 0, 75)
+FeedbackContainer.Size = UDim2.new(0, 175, 0, 95)
 FeedbackContainer.Position = UDim2.new(0, 90, 0, 35)
 FeedbackContainer.BackgroundTransparency = 1
 FeedbackContainer.Visible = false
+
+-- [ UYARI YAZISI (Fly Butonunun Üstü) ] --
+local WarningLabel = Instance.new("TextLabel", MainContainer)
+WarningLabel.Text = "Doesn't work properly in Natural Disaster, trying to fix."
+WarningLabel.Size = UDim2.new(1, -5, 0, 20)
+WarningLabel.Position = UDim2.new(0, 0, 0, 0)
+WarningLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+WarningLabel.Font = Enum.Font.GothamBold
+WarningLabel.TextSize = 8
+WarningLabel.BackgroundTransparency = 1
+WarningLabel.TextWrapped = true
 
 -- [ FLY BUTONU (Main İçinde) ] --
 local FlyBtn = Instance.new("TextButton", MainContainer)
 FlyBtn.Text = "FLY: OFF"
 FlyBtn.Size = UDim2.new(1, -5, 0, 25)
-FlyBtn.Position = UDim2.new(0, 0, 0, 0)
+FlyBtn.Position = UDim2.new(0, 0, 0, 22)
 FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
 FlyBtn.TextColor3 = Color3.new(1, 1, 1)
 FlyBtn.Font = Enum.Font.GothamBold
@@ -147,7 +158,7 @@ Instance.new("UICorner", FlyBtn)
 local MoreBtn = Instance.new("TextButton", MainContainer)
 MoreBtn.Text = "Click for Noclip & More"
 MoreBtn.Size = UDim2.new(1, -5, 0, 22)
-MoreBtn.Position = UDim2.new(0, 0, 0, 28)
+MoreBtn.Position = UDim2.new(0, 0, 0, 50)
 MoreBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
 MoreBtn.TextColor3 = Color3.new(1, 1, 1)
 MoreBtn.Font = Enum.Font.GothamBold
