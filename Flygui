@@ -1,5 +1,5 @@
 -- [[ LIGHTNING HUB UNIVERSAL FLY GUI - V18 ]] --
--- Motor, yönler ve yazılar V17 ile aynıdır. Sadece Kapatma, Küçültme, Sol Sekmeler ve Webhook Eklendi.
+-- Motor, yönler ve yazılar V17 ile aynıdır. Sadece Kapatma, Küçültme, Sol Sekmeler, Webhook ve Ekstra Özellik Eklendi.
 local player = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local runService = game:GetService("RunService")
@@ -108,7 +108,7 @@ FeedbackTabBtn.Font = Enum.Font.GothamBold
 FeedbackTabBtn.TextSize = 10
 Instance.new("UICorner", FeedbackTabBtn)
 
--- 💬 Global Chat Butonu (Feedback'in Altına Eklendi)
+-- 💬 Global Chat Butonu
 local GlobalChatTabBtn = Instance.new("TextButton", MainFrame)
 GlobalChatTabBtn.Text = "💬 Global Chat"
 GlobalChatTabBtn.Size = UDim2.new(0, 75, 0, 24)
@@ -135,12 +135,30 @@ FeedbackContainer.Visible = false
 -- [ FLY BUTONU (Main İçinde) ] --
 local FlyBtn = Instance.new("TextButton", MainContainer)
 FlyBtn.Text = "FLY: OFF"
-FlyBtn.Size = UDim2.new(1, -5, 0, 40)
-FlyBtn.Position = UDim2.new(0, 0, 0.15, 0)
+FlyBtn.Size = UDim2.new(1, -5, 0, 25)
+FlyBtn.Position = UDim2.new(0, 0, 0, 0)
 FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
 FlyBtn.TextColor3 = Color3.new(1, 1, 1)
 FlyBtn.Font = Enum.Font.GothamBold
+FlyBtn.TextSize = 10
 Instance.new("UICorner", FlyBtn)
+
+-- [ NOCLIP & MORE BUTONU (Fly Altına Eklendi) ] --
+local MoreBtn = Instance.new("TextButton", MainContainer)
+MoreBtn.Text = "Click for Noclip & More"
+MoreBtn.Size = UDim2.new(1, -5, 0, 22)
+MoreBtn.Position = UDim2.new(0, 0, 0, 28)
+MoreBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+MoreBtn.TextColor3 = Color3.new(1, 1, 1)
+MoreBtn.Font = Enum.Font.GothamBold
+MoreBtn.TextSize = 9
+Instance.new("UICorner", MoreBtn)
+
+MoreBtn.MouseButton1Click:Connect(function()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/LightningHub-/refs/heads/main/LightningHub"))()
+    end)
+end)
 
 -- [ FEEDBACK İÇERİĞİ ] --
 local FeedbackBox = Instance.new("TextBox", FeedbackContainer)
@@ -291,4 +309,3 @@ FlyBtn.MouseButton1Click:Connect(function()
         end)
     end
 end)
-
