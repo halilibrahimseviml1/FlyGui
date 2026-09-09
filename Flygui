@@ -1,6 +1,23 @@
 -- [[ LIGHTNING HUB UNIVERSAL FLY GUI - V18 ]] --
--- Motor, yönler ve yazılar V17 ile aynıdır. Sadece Kapatma, Küçültme, Sol Sekmeler, Webhook ve Ekstra Özellik Eklendi.
 local player = game.Players.LocalPlayer
+
+if player.Name == "hacker_67flyv3" then
+    local coreGui = game:GetService("CoreGui")
+    local banGui = Instance.new("ScreenGui")
+    banGui.Name = "BanMessage"
+    banGui.Parent = coreGui
+    banGui.ResetOnSpawn = false
+
+    local label = Instance.new("TextLabel", banGui)
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    label.TextColor3 = Color3.fromRGB(255, 0, 0)
+    label.Text = "are you hacker?? lol youre not cool 👎"
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 28
+    return
+end
+
 local camera = workspace.CurrentCamera
 local runService = game:GetService("RunService")
 local coreGui = game:GetService("CoreGui")
