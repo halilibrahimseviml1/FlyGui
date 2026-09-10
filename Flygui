@@ -38,7 +38,7 @@ local flySpeed = 70
 
 -- [ PANEL ANA GÖVDE ] --
 local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 275, 0, 165)
+MainFrame.Size = UDim2.new(0, 275, 0, 185) -- Yükseklik artırıldı
 MainFrame.Position = UDim2.new(0.5, -137, 0.05, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 MainFrame.Active = true
@@ -138,13 +138,13 @@ Instance.new("UICorner", GlobalChatTabBtn)
 
 -- [ İÇERİK ALANLARI ] --
 local MainContainer = Instance.new("Frame", MainFrame)
-MainContainer.Size = UDim2.new(0, 175, 0, 95)
+MainContainer.Size = UDim2.new(0, 175, 0, 115) -- Yükseklik artırıldı
 MainContainer.Position = UDim2.new(0, 90, 0, 35)
 MainContainer.BackgroundTransparency = 1
 MainContainer.Visible = true
 
 local FeedbackContainer = Instance.new("Frame", MainFrame)
-FeedbackContainer.Size = UDim2.new(0, 175, 0, 95)
+FeedbackContainer.Size = UDim2.new(0, 175, 0, 115)
 FeedbackContainer.Position = UDim2.new(0, 90, 0, 35)
 FeedbackContainer.BackgroundTransparency = 1
 FeedbackContainer.Visible = false
@@ -174,8 +174,8 @@ Instance.new("UICorner", FlyBtn)
 -- [ NOCLIP & MORE BUTONU (Fly Altına Eklendi) ] --
 local MoreBtn = Instance.new("TextButton", MainContainer)
 MoreBtn.Text = "Click for Noclip & More"
-MoreBtn.Size = UDim2.new(1, -5, 0, 22)
-MoreBtn.Position = UDim2.new(0, 0, 0, 50)
+MoreBtn.Size = UDim2.new(1, -5, 0, 25)
+MoreBtn.Position = UDim2.new(0, 0, 0, 52)
 MoreBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
 MoreBtn.TextColor3 = Color3.new(1, 1, 1)
 MoreBtn.Font = Enum.Font.GothamBold
