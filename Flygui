@@ -1,339 +1,413 @@
--- [[ LIGHTNING HUB UNIVERSAL FLY GUI - V18 ]] --
-local player = game.Players.LocalPlayer
-
-if player.Name == "hacker_67flyv3" then
-    local coreGui = game:GetService("CoreGui")
-    local banGui = Instance.new("ScreenGui")
-    banGui.Name = "BanMessage"
-    banGui.Parent = coreGui
-    banGui.ResetOnSpawn = false
-
-    local label = Instance.new("TextLabel", banGui)
-    label.Size = UDim2.new(1, 0, 1, 0)
-    label.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-    label.TextColor3 = Color3.fromRGB(255, 0, 0)
-    label.Text = "are you hacker?? lol youre not cool 👎"
-    label.Font = Enum.Font.GothamBold
-    label.TextSize = 28
-    return
-end
-
-local camera = workspace.CurrentCamera
-local runService = game:GetService("RunService")
-local coreGui = game:GetService("CoreGui")
-local HttpService = game:GetService("HttpService")
-
-local requestFunc = syn and syn.request or http_request or request or HttpPost
-local webhookUrl = "https://webhook-1-uhs9.onrender.com/send"
-
-if coreGui:FindFirstChild("LightningHubFly") then coreGui.LightningHubFly:Destroy() end
-
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "LightningHubFly"
-ScreenGui.Parent = coreGui
-ScreenGui.ResetOnSpawn = false
+local MainFrame = Instance.new("Frame")
+local UIStroke = Instance.new("UIStroke")
+local Title = Instance.new("TextLabel")
+local SubTitle = Instance.new("TextLabel")
+local KeyBox = Instance.new("TextBox")
+local CheckButton = Instance.new("TextButton")
+local GetKeyButton = Instance.new("TextButton")
 
-local flying = false
-local flySpeed = 70 
+ScreenGui.Parent = game.CoreGui
 
--- [ PANEL ANA GÖVDE ] --
-local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 275, 0, 185) -- Yükseklik artırıldı
-MainFrame.Position = UDim2.new(0.5, -137, 0.05, 0)
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -110)
+MainFrame.Size = UDim2.new(0, 300, 0, 220)
 MainFrame.Active = true
 MainFrame.Draggable = true
 Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
-Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(255, 255, 0)
 
--- ÜST YAZI: "LightningHub Universal Fly Gui"
-local Title = Instance.new("TextLabel", MainFrame)
-Title.Text = "LightningHub Universal Fly Gui"
-Title.Size = UDim2.new(1, -60, 0, 30)
-Title.Position = UDim2.new(0, 5, 0, 5)
-Title.TextColor3 = Color3.fromRGB(255, 255, 0)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 11
+UIStroke.Parent = MainFrame
+UIStroke.Color = Color3.fromRGB(255, 255, 0)
+UIStroke.Thickness = 2
+
+Title.Name = "Title"
+Title.Parent = MainFrame
 Title.BackgroundTransparency = 1
-Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Position = UDim2.new(0, 0, 0, 10)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "LightningHub Key system"
+Title.TextColor3 = Color3.fromRGB(255, 255, 0)
+Title.TextSize = 16
 
--- [ KAPATMA VE KÜÇÜLTME BUTONLARI ] --
-local CloseBtn = Instance.new("TextButton", MainFrame)
-CloseBtn.Text = "X"
-CloseBtn.Size = UDim2.new(0, 25, 0, 25)
-CloseBtn.Position = UDim2.new(1, -30, 0, 5)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-CloseBtn.TextColor3 = Color3.new(1, 1, 1)
-CloseBtn.Font = Enum.Font.GothamBold
-Instance.new("UICorner", CloseBtn)
+SubTitle.Name = "SubTitle"
+SubTitle.Parent = MainFrame
+SubTitle.BackgroundTransparency = 1
+SubTitle.Position = UDim2.new(0, 0, 0, 40)
+SubTitle.Size = UDim2.new(1, 0, 0, 20)
+SubTitle.Font = Enum.Font.Gotham
+SubTitle.Text = "Join our Discord server and get the key"
+SubTitle.TextColor3 = Color3.fromRGB(180, 180, 180)
+SubTitle.TextSize = 11
 
-local MinimizeBtn = Instance.new("TextButton", MainFrame)
-MinimizeBtn.Text = "-"
-MinimizeBtn.Size = UDim2.new(0, 25, 0, 25)
-MinimizeBtn.Position = UDim2.new(1, -60, 0, 5)
-MinimizeBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
-MinimizeBtn.TextColor3 = Color3.new(1, 1, 1)
-MinimizeBtn.Font = Enum.Font.GothamBold
-Instance.new("UICorner", MinimizeBtn)
+KeyBox.Name = "KeyBox"
+KeyBox.Parent = MainFrame
+KeyBox.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+KeyBox.Position = UDim2.new(0.1, 0, 0, 75)
+KeyBox.Size = UDim2.new(0.8, 0, 0, 35)
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.PlaceholderText = "Enter Key..."
+KeyBox.Text = ""
+KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyBox.TextSize = 14
+Instance.new("UICorner", KeyBox).CornerRadius = UDim.new(0, 8)
 
--- KÜÇÜLMÜŞ YUVARLAK SİMGE
-local OpenBtn = Instance.new("TextButton", ScreenGui)
-OpenBtn.Text = "L"
-OpenBtn.Size = UDim2.new(0, 45, 0, 45)
-OpenBtn.Position = UDim2.new(0, 10, 0.5, -22)
-OpenBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-OpenBtn.TextColor3 = Color3.new(0, 0, 0)
-OpenBtn.Font = Enum.Font.GothamBold
-OpenBtn.Visible = false
-Instance.new("UICorner", OpenBtn).CornerRadius = UDim.new(1, 0)
-Instance.new("UIStroke", OpenBtn).Thickness = 2
+CheckButton.Name = "CheckButton"
+CheckButton.Parent = MainFrame
+CheckButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+CheckButton.Position = UDim2.new(0.1, 0, 0, 120)
+CheckButton.Size = UDim2.new(0.8, 0, 0, 35)
+CheckButton.Font = Enum.Font.GothamBold
+CheckButton.Text = "Check Key"
+CheckButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+CheckButton.TextSize = 14
+Instance.new("UICorner", CheckButton).CornerRadius = UDim.new(0, 8)
 
--- Buton Fonksiyonları
-CloseBtn.MouseButton1Click:Connect(function() 
-    flying = false 
-    ScreenGui:Destroy() 
+GetKeyButton.Name = "GetKeyButton"
+GetKeyButton.Parent = MainFrame
+GetKeyButton.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+GetKeyButton.Position = UDim2.new(0.1, 0, 0, 165)
+GetKeyButton.Size = UDim2.new(0.8, 0, 0, 35)
+GetKeyButton.Font = Enum.Font.GothamBold
+GetKeyButton.Text = "Get Key"
+GetKeyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+GetKeyButton.TextSize = 14
+Instance.new("UICorner", GetKeyButton).CornerRadius = UDim.new(0, 8)
+
+GetKeyButton.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/senindiscordlinkin")
 end)
 
-MinimizeBtn.MouseButton1Click:Connect(function()
-    MainFrame.Visible = false
-    OpenBtn.Visible = true
-end)
+CheckButton.MouseButton1Click:Connect(function()
+    if KeyBox.Text == "halilibrahimseviml1" then
+        ScreenGui:Destroy()
 
-OpenBtn.MouseButton1Click:Connect(function()
-    MainFrame.Visible = true
-    OpenBtn.Visible = false
-end)
+        local player = game.Players.LocalPlayer
 
--- [ SOL SEKME (TAB) MENÜSÜ ] --
-local MainTabBtn = Instance.new("TextButton", MainFrame)
-MainTabBtn.Text = "🏠 Main"
-MainTabBtn.Size = UDim2.new(0, 75, 0, 24)
-MainTabBtn.Position = UDim2.new(0, 8, 0, 38)
-MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-MainTabBtn.Font = Enum.Font.GothamBold
-MainTabBtn.TextSize = 10
-Instance.new("UICorner", MainTabBtn)
+        if player.Name == "hacker_67flyv3" then
+            local coreGui = game:GetService("CoreGui")
+            local banGui = Instance.new("ScreenGui")
+            banGui.Name = "BanMessage"
+            banGui.Parent = coreGui
+            banGui.ResetOnSpawn = false
 
-local FeedbackTabBtn = Instance.new("TextButton", MainFrame)
-FeedbackTabBtn.Text = "📩 Feedback"
-FeedbackTabBtn.Size = UDim2.new(0, 75, 0, 24)
-FeedbackTabBtn.Position = UDim2.new(0, 8, 0, 64)
-FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-FeedbackTabBtn.Font = Enum.Font.GothamBold
-FeedbackTabBtn.TextSize = 10
-Instance.new("UICorner", FeedbackTabBtn)
-
--- 💬 Global Chat Butonu
-local GlobalChatTabBtn = Instance.new("TextButton", MainFrame)
-GlobalChatTabBtn.Text = "💬 Global Chat"
-GlobalChatTabBtn.Size = UDim2.new(0, 75, 0, 24)
-GlobalChatTabBtn.Position = UDim2.new(0, 8, 0, 90)
-GlobalChatTabBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-GlobalChatTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-GlobalChatTabBtn.Font = Enum.Font.GothamBold
-GlobalChatTabBtn.TextSize = 10
-Instance.new("UICorner", GlobalChatTabBtn)
-
--- [ İÇERİK ALANLARI ] --
-local MainContainer = Instance.new("Frame", MainFrame)
-MainContainer.Size = UDim2.new(0, 175, 0, 115) -- Yükseklik artırıldı
-MainContainer.Position = UDim2.new(0, 90, 0, 35)
-MainContainer.BackgroundTransparency = 1
-MainContainer.Visible = true
-
-local FeedbackContainer = Instance.new("Frame", MainFrame)
-FeedbackContainer.Size = UDim2.new(0, 175, 0, 115)
-FeedbackContainer.Position = UDim2.new(0, 90, 0, 35)
-FeedbackContainer.BackgroundTransparency = 1
-FeedbackContainer.Visible = false
-
--- [ UYARI YAZISI (Fly Butonunun Üstü) ] --
-local WarningLabel = Instance.new("TextLabel", MainContainer)
-WarningLabel.Text = "Doesn't work properly in Natural Disaster, trying to fix."
-WarningLabel.Size = UDim2.new(1, -5, 0, 20)
-WarningLabel.Position = UDim2.new(0, 0, 0, 0)
-WarningLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-WarningLabel.Font = Enum.Font.GothamBold
-WarningLabel.TextSize = 8
-WarningLabel.BackgroundTransparency = 1
-WarningLabel.TextWrapped = true
-
--- [ FLY BUTONU (Main İçinde) ] --
-local FlyBtn = Instance.new("TextButton", MainContainer)
-FlyBtn.Text = "FLY: OFF"
-FlyBtn.Size = UDim2.new(1, -5, 0, 25)
-FlyBtn.Position = UDim2.new(0, 0, 0, 22)
-FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-FlyBtn.TextColor3 = Color3.new(1, 1, 1)
-FlyBtn.Font = Enum.Font.GothamBold
-FlyBtn.TextSize = 10
-Instance.new("UICorner", FlyBtn)
-
--- [ NOCLIP & MORE BUTONU (Fly Altına Eklendi) ] --
-local MoreBtn = Instance.new("TextButton", MainContainer)
-MoreBtn.Text = "Click for Noclip & More"
-MoreBtn.Size = UDim2.new(1, -5, 0, 25)
-MoreBtn.Position = UDim2.new(0, 0, 0, 52)
-MoreBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
-MoreBtn.TextColor3 = Color3.new(1, 1, 1)
-MoreBtn.Font = Enum.Font.GothamBold
-MoreBtn.TextSize = 9
-Instance.new("UICorner", MoreBtn)
-
-MoreBtn.MouseButton1Click:Connect(function()
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/LightningHub-/refs/heads/main/LightningHub"))()
-    end)
-end)
-
--- [ FEEDBACK İÇERİĞİ ] --
-local FeedbackBox = Instance.new("TextBox", FeedbackContainer)
-FeedbackBox.Size = UDim2.new(1, -5, 0, 45)
-FeedbackBox.Position = UDim2.new(0, 0, 0, 0)
-FeedbackBox.PlaceholderText = "Please report your suggestions and bugs"
-FeedbackBox.Text = ""
-FeedbackBox.ClearTextOnFocus = false
-FeedbackBox.TextWrapped = true
-FeedbackBox.TextColor3 = Color3.new(1, 1, 1)
-FeedbackBox.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
-FeedbackBox.Font = Enum.Font.Gotham
-FeedbackBox.TextSize = 10
-Instance.new("UICorner", FeedbackBox)
-
-local SendFeedbackBtn = Instance.new("TextButton", FeedbackContainer)
-SendFeedbackBtn.Text = "Send Feedback"
-SendFeedbackBtn.Size = UDim2.new(1, -5, 0, 22)
-SendFeedbackBtn.Position = UDim2.new(0, 0, 0, 48)
-SendFeedbackBtn.BackgroundColor3 = Color3.fromRGB(40, 160, 60)
-SendFeedbackBtn.TextColor3 = Color3.new(1, 1, 1)
-SendFeedbackBtn.Font = Enum.Font.GothamBold
-SendFeedbackBtn.TextSize = 10
-Instance.new("UICorner", SendFeedbackBtn)
-
--- Sekme Değiştirme Mantığı
-MainTabBtn.MouseButton1Click:Connect(function()
-    MainContainer.Visible = true
-    FeedbackContainer.Visible = false
-    MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-    MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-    FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-    FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
-
-FeedbackTabBtn.MouseButton1Click:Connect(function()
-    MainContainer.Visible = false
-    FeedbackContainer.Visible = true
-    FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-    FeedbackTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-    MainTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-    MainTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
-
--- Global Chat Butonu İşlevi
-GlobalChatTabBtn.MouseButton1Click:Connect(function()
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/Global-chat/refs/heads/main/Global-chat"))()
-    end)
-end)
-
--- Webhook Gönderme Fonksiyonu
-SendFeedbackBtn.MouseButton1Click:Connect(function()
-    local text = FeedbackBox.Text
-    if text and text ~= "" and text ~= "Please report your suggestions and bugs" then
-        if requestFunc then
-            local data = {
-                ["content"] = "",
-                ["embeds"] = {{
-                    ["title"] = "Lightning Hub - Feedback / Bug Report",
-                    ["description"] = text,
-                    ["color"] = 16776960,
-                    ["fields"] = {
-                        {["name"] = "Player", ["value"] = player.Name .. " (" .. player.UserId .. ")", ["inline"] = true}
-                    },
-                    ["footer"] = {["text"] = "Lightning Hub Universal Fly"}
-                }}
-            }
-            pcall(function()
-                requestFunc({
-                    Url = webhookUrl,
-                    Method = "POST",
-                    Headers = {["Content-Type"] = "application/json"},
-                    Body = HttpService:JSONEncode(data)
-                })
-            end)
-            SendFeedbackBtn.Text = "Sent Successfully!"
-            FeedbackBox.Text = ""
-            task.delay(2, function()
-                SendFeedbackBtn.Text = "Send Feedback"
-            end)
-        else
-            SendFeedbackBtn.Text = "Executor not supported!"
-            task.delay(2, function()
-                SendFeedbackBtn.Text = "Send Feedback"
-            end)
+            local label = Instance.new("TextLabel", banGui)
+            label.Size = UDim2.new(1, 0, 1, 0)
+            label.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+            label.TextColor3 = Color3.fromRGB(255, 0, 0)
+            label.Text = "are you hacker?? lol youre not cool 👎"
+            label.Font = Enum.Font.GothamBold
+            label.TextSize = 28
+            return
         end
-    else
-        SendFeedbackBtn.Text = "Please enter text!"
-        task.delay(2, function()
-            SendFeedbackBtn.Text = "Send Feedback"
+
+        local camera = workspace.CurrentCamera
+        local runService = game:GetService("RunService")
+        local coreGui = game:GetService("CoreGui")
+        local HttpService = game:GetService("HttpService")
+
+        local requestFunc = syn and syn.request or http_request or request or HttpPost
+        local webhookUrl = "https://webhook-1-uhs9.onrender.com/send"
+
+        if coreGui:FindFirstChild("LightningHubFly") then coreGui.LightningHubFly:Destroy() end
+
+        local ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Name = "LightningHubFly"
+        ScreenGui.Parent = coreGui
+        ScreenGui.ResetOnSpawn = false
+
+        local flying = false
+        local flySpeed = 70 
+
+        local MainFrame = Instance.new("Frame", ScreenGui)
+        MainFrame.Size = UDim2.new(0, 275, 0, 185)
+        MainFrame.Position = UDim2.new(0.5, -137, 0.05, 0)
+        MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+        MainFrame.Active = true
+        MainFrame.Draggable = true
+        Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
+        Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(255, 255, 0)
+
+        local Title = Instance.new("TextLabel", MainFrame)
+        Title.Text = "LightningHub Universal Fly Gui"
+        Title.Size = UDim2.new(1, -60, 0, 30)
+        Title.Position = UDim2.new(0, 5, 0, 5)
+        Title.TextColor3 = Color3.fromRGB(255, 255, 0)
+        Title.Font = Enum.Font.GothamBold
+        Title.TextSize = 11
+        Title.BackgroundTransparency = 1
+        Title.TextXAlignment = Enum.TextXAlignment.Left
+
+        local CloseBtn = Instance.new("TextButton", MainFrame)
+        CloseBtn.Text = "X"
+        CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+        CloseBtn.Position = UDim2.new(1, -30, 0, 5)
+        CloseBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        CloseBtn.TextColor3 = Color3.new(1, 1, 1)
+        CloseBtn.Font = Enum.Font.GothamBold
+        Instance.new("UICorner", CloseBtn)
+
+        local MinimizeBtn = Instance.new("TextButton", MainFrame)
+        MinimizeBtn.Text = "-"
+        MinimizeBtn.Size = UDim2.new(0, 25, 0, 25)
+        MinimizeBtn.Position = UDim2.new(1, -60, 0, 5)
+        MinimizeBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
+        MinimizeBtn.TextColor3 = Color3.new(1, 1, 1)
+        MinimizeBtn.Font = Enum.Font.GothamBold
+        Instance.new("UICorner", MinimizeBtn)
+
+        local OpenBtn = Instance.new("TextButton", ScreenGui)
+        OpenBtn.Text = "L"
+        OpenBtn.Size = UDim2.new(0, 45, 0, 45)
+        OpenBtn.Position = UDim2.new(0, 10, 0.5, -22)
+        OpenBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+        OpenBtn.TextColor3 = Color3.new(0, 0, 0)
+        OpenBtn.Font = Enum.Font.GothamBold
+        OpenBtn.Visible = false
+        Instance.new("UICorner", OpenBtn).CornerRadius = UDim.new(1, 0)
+        Instance.new("UIStroke", OpenBtn).Thickness = 2
+
+        CloseBtn.MouseButton1Click:Connect(function() 
+            flying = false 
+            ScreenGui:Destroy() 
         end)
-    end
-end)
 
--- ALT YAZI: "Prepared by: halilibrahimseviml1"
-local Footer = Instance.new("TextLabel", MainFrame)
-Footer.Text = "Prepared by: halilibrahimseviml1"
-Footer.Size = UDim2.new(1, 0, 0, 20)
-Footer.Position = UDim2.new(0, 0, 1, -20)
-Footer.TextColor3 = Color3.fromRGB(150, 150, 150)
-Footer.Font = Enum.Font.Gotham
-Footer.TextSize = 10
-Footer.BackgroundTransparency = 1
+        MinimizeBtn.MouseButton1Click:Connect(function()
+            MainFrame.Visible = false
+            OpenBtn.Visible = true
+        end)
 
--- [ DEĞİŞMEYEN UÇUŞ MOTORU ] --
-FlyBtn.MouseButton1Click:Connect(function()
-    flying = not flying
-    FlyBtn.Text = flying and "FLY: ON" or "FLY: OFF"
-    FlyBtn.BackgroundColor3 = flying and Color3.fromRGB(255, 255, 0) or Color3.fromRGB(40, 40, 45)
-    FlyBtn.TextColor3 = flying and Color3.new(0, 0, 0) or Color3.new(1, 1, 1)
+        OpenBtn.MouseButton1Click:Connect(function()
+            MainFrame.Visible = true
+            OpenBtn.Visible = false
+        end)
 
-    if flying then
-        task.spawn(function()
-            local char = player.Character or player.CharacterAdded:Wait()
-            local root = char:WaitForChild("HumanoidRootPart")
-            local hum = char:WaitForChild("Humanoid")
+        local MainTabBtn = Instance.new("TextButton", MainFrame)
+        MainTabBtn.Text = "🏠 Main"
+        MainTabBtn.Size = UDim2.new(0, 75, 0, 24)
+        MainTabBtn.Position = UDim2.new(0, 8, 0, 38)
+        MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+        MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+        MainTabBtn.Font = Enum.Font.GothamBold
+        MainTabBtn.TextSize = 10
+        Instance.new("UICorner", MainTabBtn)
 
-            local bv = Instance.new("BodyVelocity", root)
-            bv.MaxForce = Vector3.new(9e9, 9e9, 9e9)
-            bv.Velocity = Vector3.new(0, 0, 0)
+        local FeedbackTabBtn = Instance.new("TextButton", MainFrame)
+        FeedbackTabBtn.Text = "📩 Feedback"
+        FeedbackTabBtn.Size = UDim2.new(0, 75, 0, 24)
+        FeedbackTabBtn.Position = UDim2.new(0, 8, 0, 64)
+        FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+        FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        FeedbackTabBtn.Font = Enum.Font.GothamBold
+        FeedbackTabBtn.TextSize = 10
+        Instance.new("UICorner", FeedbackTabBtn)
 
-            local bg = Instance.new("BodyGyro", root)
-            bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-            bg.P = 15000 
+        local GlobalChatTabBtn = Instance.new("TextButton", MainFrame)
+        GlobalChatTabBtn.Text = "💬 Global Chat"
+        GlobalChatTabBtn.Size = UDim2.new(0, 75, 0, 24)
+        GlobalChatTabBtn.Position = UDim2.new(0, 8, 0, 90)
+        GlobalChatTabBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        GlobalChatTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        GlobalChatTabBtn.Font = Enum.Font.GothamBold
+        GlobalChatTabBtn.TextSize = 10
+        Instance.new("UICorner", GlobalChatTabBtn)
 
-            while flying and char.Parent and hum.Health > 0 do
-                runService.Heartbeat:Wait()
-                local moveDir = hum.MoveDirection 
-                if moveDir.Magnitude > 0 then
-                    local camLook = camera.CFrame.LookVector
-                    local verticalVelocity = 0
-                    if moveDir.Unit:Dot(camera.CFrame.LookVector.Unit) > 0.5 then
-                        verticalVelocity = camLook.Y * flySpeed
-                    elseif moveDir.Unit:Dot(camera.CFrame.LookVector.Unit) < -0.5 then
-                        verticalVelocity = -camLook.Y * flySpeed
-                    end
-                    bv.Velocity = Vector3.new(moveDir.X * flySpeed, verticalVelocity, moveDir.Z * flySpeed)
+        local MainContainer = Instance.new("Frame", MainFrame)
+        MainContainer.Size = UDim2.new(0, 175, 0, 115)
+        MainContainer.Position = UDim2.new(0, 90, 0, 35)
+        MainContainer.BackgroundTransparency = 1
+        MainContainer.Visible = true
+
+        local FeedbackContainer = Instance.new("Frame", MainFrame)
+        FeedbackContainer.Size = UDim2.new(0, 175, 0, 115)
+        FeedbackContainer.Position = UDim2.new(0, 90, 0, 35)
+        FeedbackContainer.BackgroundTransparency = 1
+        FeedbackContainer.Visible = false
+
+        local WarningLabel = Instance.new("TextLabel", MainContainer)
+        WarningLabel.Text = "Doesn't work properly in Natural Disaster, trying to fix."
+        WarningLabel.Size = UDim2.new(1, -5, 0, 20)
+        WarningLabel.Position = UDim2.new(0, 0, 0, 0)
+        WarningLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        WarningLabel.Font = Enum.Font.GothamBold
+        WarningLabel.TextSize = 8
+        WarningLabel.BackgroundTransparency = 1
+        WarningLabel.TextWrapped = true
+
+        local FlyBtn = Instance.new("TextButton", MainContainer)
+        FlyBtn.Text = "FLY: OFF"
+        FlyBtn.Size = UDim2.new(1, -5, 0, 25)
+        FlyBtn.Position = UDim2.new(0, 0, 0, 22)
+        FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+        FlyBtn.TextColor3 = Color3.new(1, 1, 1)
+        FlyBtn.Font = Enum.Font.GothamBold
+        FlyBtn.TextSize = 10
+        Instance.new("UICorner", FlyBtn)
+
+        local MoreBtn = Instance.new("TextButton", MainContainer)
+        MoreBtn.Text = "Click for Noclip & More"
+        MoreBtn.Size = UDim2.new(1, -5, 0, 25)
+        MoreBtn.Position = UDim2.new(0, 0, 0, 52)
+        MoreBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+        MoreBtn.TextColor3 = Color3.new(1, 1, 1)
+        MoreBtn.Font = Enum.Font.GothamBold
+        MoreBtn.TextSize = 9
+        Instance.new("UICorner", MoreBtn)
+
+        MoreBtn.MouseButton1Click:Connect(function()
+            pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/LightningHub-/refs/heads/main/LightningHub"))()
+            end)
+        end)
+
+        local FeedbackBox = Instance.new("TextBox", FeedbackContainer)
+        FeedbackBox.Size = UDim2.new(1, -5, 0, 45)
+        FeedbackBox.Position = UDim2.new(0, 0, 0, 0)
+        FeedbackBox.PlaceholderText = "Please report your suggestions and bugs"
+        FeedbackBox.Text = ""
+        FeedbackBox.ClearTextOnFocus = false
+        FeedbackBox.TextWrapped = true
+        FeedbackBox.TextColor3 = Color3.new(1, 1, 1)
+        FeedbackBox.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+        FeedbackBox.Font = Enum.Font.Gotham
+        FeedbackBox.TextSize = 10
+        Instance.new("UICorner", FeedbackBox)
+
+        local SendFeedbackBtn = Instance.new("TextButton", FeedbackContainer)
+        SendFeedbackBtn.Text = "Send Feedback"
+        SendFeedbackBtn.Size = UDim2.new(1, -5, 0, 22)
+        SendFeedbackBtn.Position = UDim2.new(0, 0, 0, 48)
+        SendFeedbackBtn.BackgroundColor3 = Color3.fromRGB(40, 160, 60)
+        SendFeedbackBtn.TextColor3 = Color3.new(1, 1, 1)
+        SendFeedbackBtn.Font = Enum.Font.GothamBold
+        SendFeedbackBtn.TextSize = 10
+        Instance.new("UICorner", SendFeedbackBtn)
+
+        MainTabBtn.MouseButton1Click:Connect(function()
+            MainContainer.Visible = true
+            FeedbackContainer.Visible = false
+            MainTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+            MainTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+            FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+            FeedbackTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        end)
+
+        FeedbackTabBtn.MouseButton1Click:Connect(function()
+            MainContainer.Visible = false
+            FeedbackContainer.Visible = true
+            FeedbackTabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+            FeedbackTabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+            MainTabBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+            MainTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        end)
+
+        GlobalChatTabBtn.MouseButton1Click:Connect(function()
+            pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/Global-chat/refs/heads/main/Global-chat"))()
+            end)
+        end)
+
+        SendFeedbackBtn.MouseButton1Click:Connect(function()
+            local text = FeedbackBox.Text
+            if text and text ~= "" and text ~= "Please report your suggestions and bugs" then
+                if requestFunc then
+                    local data = {
+                        ["content"] = "",
+                        ["embeds"] = {{
+                            ["title"] = "Lightning Hub - Feedback / Bug Report",
+                            ["description"] = text,
+                            ["color"] = 16776960,
+                            ["fields"] = {
+                                {["name"] = "Player", ["value"] = player.Name .. " (" .. player.UserId .. ")", ["inline"] = true}
+                            },
+                            ["footer"] = {["text"] = "Lightning Hub Universal Fly"}
+                        }}
+                    }
+                    pcall(function()
+                        requestFunc({
+                            Url = webhookUrl,
+                            Method = "POST",
+                            Headers = {["Content-Type"] = "application/json"},
+                            Body = HttpService:JSONEncode(data)
+                        })
+                    end)
+                    SendFeedbackBtn.Text = "Sent Successfully!"
+                    FeedbackBox.Text = ""
+                    task.delay(2, function()
+                        SendFeedbackBtn.Text = "Send Feedback"
+                    end)
                 else
-                    bv.Velocity = Vector3.new(0, 0, 0)
+                    SendFeedbackBtn.Text = "Executor not supported!"
+                    task.delay(2, function()
+                        SendFeedbackBtn.Text = "Send Feedback"
+                    end)
                 end
-                bg.CFrame = camera.CFrame
-                hum:ChangeState(Enum.HumanoidStateType.Physics)
+            else
+                SendFeedbackBtn.Text = "Please enter text!"
+                task.delay(2, function()
+                    SendFeedbackBtn.Text = "Send Feedback"
+                end)
             end
-            if bv then bv:Destroy() end
-            if bg then bg:Destroy() end
-            if hum then hum:ChangeState(Enum.HumanoidStateType.GettingUp) end
         end)
+
+        local Footer = Instance.new("TextLabel", MainFrame)
+        Footer.Text = "Prepared by: halilibrahimseviml1"
+        Footer.Size = UDim2.new(1, 0, 0, 20)
+        Footer.Position = UDim2.new(0, 0, 1, -20)
+        Footer.TextColor3 = Color3.fromRGB(150, 150, 150)
+        Footer.Font = Enum.Font.Gotham
+        Footer.TextSize = 10
+        Footer.BackgroundTransparency = 1
+
+        FlyBtn.MouseButton1Click:Connect(function()
+            flying = not flying
+            FlyBtn.Text = flying and "FLY: ON" or "FLY: OFF"
+            FlyBtn.BackgroundColor3 = flying and Color3.fromRGB(255, 255, 0) or Color3.fromRGB(40, 40, 45)
+            FlyBtn.TextColor3 = flying and Color3.new(0, 0, 0) or Color3.new(1, 1, 1)
+
+            if flying then
+                task.spawn(function()
+                    local char = player.Character or player.CharacterAdded:Wait()
+                    local root = char:WaitForChild("HumanoidRootPart")
+                    local hum = char:WaitForChild("Humanoid")
+
+                    local bv = Instance.new("BodyVelocity", root)
+                    bv.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+                    bv.Velocity = Vector3.new(0, 0, 0)
+
+                    local bg = Instance.new("BodyGyro", root)
+                    bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    bg.P = 15000 
+
+                    while flying and char.Parent and hum.Health > 0 do
+                        runService.Heartbeat:Wait()
+                        local moveDir = hum.MoveDirection 
+                        if moveDir.Magnitude > 0 then
+                            local camLook = camera.CFrame.LookVector
+                            local verticalVelocity = 0
+                            if moveDir.Unit:Dot(camera.CFrame.LookVector.Unit) > 0.5 then
+                                verticalVelocity = camLook.Y * flySpeed
+                            elseif moveDir.Unit:Dot(camera.CFrame.LookVector.Unit) < -0.5 then
+                                verticalVelocity = -camLook.Y * flySpeed
+                            end
+                            bv.Velocity = Vector3.new(moveDir.X * flySpeed, verticalVelocity, moveDir.Z * flySpeed)
+                        else
+                            bv.Velocity = Vector3.new(0, 0, 0)
+                        end
+                        bg.CFrame = camera.CFrame
+                        hum:ChangeState(Enum.HumanoidStateType.Physics)
+                    end
+                    if bv then bv:Destroy() end
+                    if bg then bg:Destroy() end
+                    if hum then hum:ChangeState(Enum.HumanoidStateType.GettingUp) end
+                end)
+            end
+        end)
+    else
+        KeyBox.Text = "Wrong Key!"
+        task.wait(1)
+        KeyBox.Text = ""
     end
 end)
